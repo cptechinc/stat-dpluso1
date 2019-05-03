@@ -11,10 +11,6 @@
 		$title .= ($resultscount == 1 ) ? '' : 's';
 	}
 ?>
-<div class="form-group">
-	<?php include __DIR__."/item-form.php"; ?>
-</div>
-
 <?php if ($input->get->scan) : ?>
 	<h3><?= $title; ?></h3>
 	<div class="list-group">
@@ -29,14 +25,14 @@
 							<?php if ($item->is_serialized() || $item->is_lotted()) : ?>
 								<p class="list-group-item-text bg-light"><strong>Bin:</strong> (MULTIPLE) <strong>Qty:</strong> <?= InventorySearchItem::get_total_qty_itemid(session_id(), $item->itemid); ?></p>
 								<p></p>
-								<button class="btn btn-primary btn-sm" data-toggle="collapse" href="#<?= $item->itemid; ?>-lotserial" aria-expanded="false" aria-controls="<?= $item->itemid; ?>-lotserial">
+								<button class="btn btn-primary btn-sm <?= $config->print ? 'hidden' : ''; ?>" data-toggle="collapse" href="#<?= $item->itemid; ?>-lotserial" aria-expanded="false" aria-controls="<?= $item->itemid; ?>-lotserial">
 									Show / Hide <?= strtoupper($item->get_itemtypepropertydesc()) . "S"; ?>
 								</button>
-								<div id="<?= $item->itemid; ?>-lotserial" class="collapse">
+								<div id="<?= $item->itemid; ?>-lotserial" class="<?= $config->print ? '' : 'collapse'; ?>">
 									<div class="list-group">
 										<?php $lotserials = InventorySearchItem::get_all_items_lotserial(session_id(), $item->itemid); ?>
 										<?php foreach ($lotserials as $lotserial) : ?>
-											<a href="<?= $labelprinting->get_request_labelprintinitURL($lotserial->itemid, $lotserial->get_itemtypeproperty(), $lotserial->get_itemidentifier(), $lotserial->bin); ?>" class="list-group-item">
+											<div class="list-group-item">
 												<div class="row">
 													<div class="col-xs-12">
 														<h4 class="list-group-item-heading"><?= strtoupper($lotserial->get_itemtypepropertydesc()) . ": " . $lotserial->get_itemidentifier(); ?></h4>
@@ -46,15 +42,34 @@
 														<?php endif; ?>
 													</div>
 												</div>
-											</a>
+											</div>
+										<?php endforeach; ?>
+									</div>
+								</div>
+							<?php elseif (InventorySearchItem::count_itemid_bins(session_id(), $item->itemid) > 1) : ?>
+								<?php $binitems = InventorySearchItem::get_invsearch_itemid_bins(session_id(), $item->itemid); ?>
+								<p class="list-group-item-text bg-light"><strong>Bin:</strong> (MULTIPLE) <strong>Qty:</strong> <?= InventorySearchItem::get_total_qty_itemid(session_id(), $item->itemid); ?></p>
+								<button class="btn btn-primary btn-sm" data-toggle="collapse" href="#<?= $item->itemid; ?>-bins" aria-expanded="false" aria-controls="<?= $item->itemid; ?>-lotserial">
+									Show / Hide Bins
+								</button>
+								<div id="<?= $item->itemid; ?>-bins" class="collapse">
+									<div class="list-group">
+										<?php foreach ($binitems as $binitem) : ?>
+											<div class="list-group-item">
+												<div class="row">
+													<div class="col-xs-12">
+														<p class="list-group-item-text bg-light"><strong>Bin:</strong> <?= $binitem->bin; ?> <strong>Qty:</strong> <?= $binitem->qty; ?></p>
+														<?php if (!$whseconfig->validate_bin($binitem->bin)) : ?>
+															<p class="list-group-item-text"><span class="label label-danger">Invalid Bin</span></p>
+														<?php endif; ?>
+													</div>
+												</div>
+											</div>
 										<?php endforeach; ?>
 									</div>
 								</div>
 							<?php else : ?>
 								<p class="list-group-item-text bg-light"><strong>Bin:</strong> <?= $item->bin; ?> <strong>Qty:</strong> <?= $item->qty; ?></p>
-								<a class="btn btn-primary" href="<?= $labelprinting->get_request_labelprintinitURL($item->itemid, $item->get_itemtypeproperty(), $item->get_itemidentifier(), $item->bin); ?>">
-									Choose <?= $item->itemid . ' at Bin ' . $item->bin; ?>
-								</a>
 								<?php if (!$whseconfig->validate_bin($item->bin)) : ?>
 									<p class="list-group-item-text"><span class="label label-danger">Invalid Bin</span></p>
 								<?php endif; ?>

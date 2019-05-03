@@ -13,7 +13,7 @@
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
-		<form action="<?= "{$config->pages->menu_binr}redir/"; ?>" method="POST" class="binr-form" id="binr-form">
+		<form action="<?= "{$config->pages->menu_binr}redir/"; ?>" method="POST" class="binr-form" id="binr-form" tab-inputs="true">
 			<input type="hidden" name="action" value="bin-reassign">
 			<input type="hidden" name="page" value="<?= $page->fullURL->getUrl(); ?>">
 			<input type="hidden" name="itemID" value="<?= $item->itemid; ?>">
@@ -54,7 +54,7 @@
 					<div class="col-sm-6 form-group">
 						<label for="bin-qty">Qty </label> (On Hand: <span class="qty-available"><?= ItemBinInfo::get_binqty(session_id(), $item); ?></span>)
 						<div class="input-group">
-							<input type="text" class="form-control input-sm text-right" name="qty" value="<?= ItemBinInfo::get_binqty(session_id(), $item); ?>">
+							<input type="text" class="form-control input-sm text-right" name="qty" value="">
 							<span class="input-group-btn">
 								<button type="submit" class="btn btn-primary btn-sm not-round use-bin-qty" data-direction="from">Use Bin Qty</button>
 							</span>

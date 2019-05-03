@@ -804,11 +804,12 @@
 	/**
 	 * Returns a QueryBuilder object built to query the customer index for the
 	 * records that the login ID is allowed access to, and matches their query
-	 * @param  string       $loginID User Login
-	 * @param  string       $keyword Search String
-	 * @return QueryBuilder          Customer Index Query
+	 * @param  string       $loginID  User Login
+	 * @param  string       $keyword  Search String
+	 * @param  string       $orderby  Orderby string e.g. custid-ASC
+	 * @return QueryBuilder           Customer Index Query
 	 */
-	function create_searchcustindexquery($loginID, $keyword) {
+	function create_searchcustindexquery($loginID, $keyword, $orderby = '') {
 		$user = LogmUser::load($loginID);
 		$search = QueryBuilder::generate_searchkeyword($keyword);
 		$q = (new QueryBuilder())->table('custindex');
@@ -823,20 +824,20 @@
 		}
 
 		if (DplusWire::wire('config')->cptechcustomer == 'stempf') {
-			if (!empty($orderbystring)) {
-				$q->order($q->generate_orderby($orderbystring));
+			if (!empty($orderby)) {
+				$q->order($q->generate_orderby($orderby));
 			} else {
 				$q->order($q->expr('custid <> [], name', [$search]));
 			}
 			$q->group('custid, shiptoid');
 		} elseif (DplusWire::wire('config')->cptechcustomer == 'stat') {
-			if (!empty($orderbystring)) {
-				$q->order($q->generate_orderby($orderbystring));
+			if (!empty($orderby)) {
+				$q->order($q->generate_orderby($orderby));
 			}
 			$q->group('custid');
 		} else {
-			if (!empty($orderbystring)) {
-				$q->order($q->generate_orderby($orderbystring));
+			if (!empty($orderby)) {
+				$q->order($q->generate_orderby($orderby));
 			} else {
 				$q->order($q->expr('custid <> []', [$search]));
 			}
@@ -860,7 +861,7 @@
 		$loginID = (!empty($loginID)) ? $loginID : DplusWire::wire('user')->loginid;
 		$user = LogmUser::load($loginID);
 		$SHARED_ACCOUNTS = DplusWire::wire('config')->sharedaccounts;
-		$searchindexquery = create_searchcustindexquery($loginID, $keyword);
+		$searchindexquery = create_searchcustindexquery($loginID, $keyword, $orderby);
 		$q = (new QueryBuilder())->table($searchindexquery, 't');
 		$q->limit($limit, $q->generate_offset($page, $limit));
 		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
@@ -5763,13 +5764,17 @@
 	/**
 	 * Returns an array of InventorySearchItem of invsearch results
 	 * @param  string $sessionID Session Identifier
+	 * @param  string $binID     Bin ID to grab Item
 	 * @param  bool   $debug     Run in debug? If so, return SQL Query
 	 * @return array            Array of InventorySearchItem
 	 */
-	function count_invsearchitems_distinct_itemid($sessionID, $debug = false) {
+	function count_invsearchitems_distinct_itemid($sessionID, $binID = '', $debug = false) {
 		$q = (new QueryBuilder())->table('invsearch');
 		$q->field($q->expr('COUNT(DISTINCT(itemid))'));
 		$q->where('sessionid', $sessionID);
+		if (!empty($binID)) {
+			$q->where('bin', $binID);
+		}
 		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
 
 		if ($debug) {
@@ -5808,6 +5813,52 @@
 			return $sql->fetchColumn();
 		}
 	}
+
+	/**
+	 * Returns the Number of Bins that contain $itemID
+	 * @param  string $sessionID Session Identifier
+	 * @param  string $itemID    Item ID
+	 * @param  bool   $debug     Run in debug? If so, return SQL Query
+	 * @return int               Number of results for this session
+	 */
+	function count_invsearch_itemid_bins($sessionID, $itemID, $debug = false) {
+		$q = (new QueryBuilder())->table('invsearch');
+		$q->field($q->expr('COUNT(DISTINCT(bin))'));
+		$q->where('sessionid', $sessionID);
+		$q->where('itemid', $itemID);
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			return $sql->fetchColumn();
+		}
+	}
+
+	/**
+	 * Returns an array of InventorySearchItem of invsearch results
+	 * @param  string $sessionID Session Identifier
+	 * @param  string $itemID    Item ID
+	 * @param  bool   $debug     Run in debug? If so, return SQL Query
+	 * @return array             <InventorySearchItem>
+	 */
+	function get_invsearch_item_bins($sessionID, $itemID, $debug = false) {
+		$q = (new QueryBuilder())->table('invsearch');
+		$q->where('sessionid', $sessionID);
+		$q->where('itemid', $itemID);
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			$sql->setFetchMode(PDO::FETCH_CLASS, 'InventorySearchItem');
+			return $sql->fetchAll();
+		}
+	}
+
+
 
 	/**
 	 * Returns the Number of results for this session and Lot Number / Serial Number
@@ -6277,6 +6328,48 @@
 	}
 
 	/**
+	 * Returns a Thermal Label Format
+	 * @param  string $format formatID
+	 * @param  bool   $debug  Run in debug? If so, return SQL Query
+	 * @return array          <ThermalLabelFormat>
+	 */
+	function get_thermalformatlabel_format($format, $debug = false) {
+		$q = (new QueryBuilder())->table('thermal_label_format');
+		$q->where('id', $format);
+		$q->limit(1);
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			$sql->setFetchMode(PDO::FETCH_CLASS, 'ThermalLabelFormat');
+			return $sql->fetch();
+		}
+	}
+
+	/**
+	 * Returns a Thermal Label Format description
+	 * @param  string $format formatID
+	 * @param  bool   $debug  Run in debug? If so, return SQL Query
+	 * @return array          <ThermalLabelFormat>
+	 */
+	function get_thermalformatlabel_format_desc($format, $debug = false) {
+		$q = (new QueryBuilder())->table('thermal_label_format');
+		$q->field('desc');
+		$q->where('id', $format);
+		$q->limit(1);
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			return $sql->fetchcolumn();
+		}
+	}
+
+	/**
 	 * Returns a List of Printers
 	 * @param  string $whseID Warehouse ID  NOTE NOT USED
 	 * @param  bool   $debug  Run in debug? If so, return SQL Query
@@ -6294,6 +6387,51 @@
 			return $sql->fetchAll();
 		}
 	}
+
+	/**
+	 * Returns a prntnctrl record
+	 * @param  string $whseID    Warehouse ID  NOTE NOT USED
+	 * @param  string $printerID Printer ID
+	 * @param  bool   $debug     Run in debug? If so, return SQL Query
+	 * @return array             <WhsePrinter>
+	 */
+	function get_prntctrl_printer($whseID = '', $printerID, $debug = false) {
+		$q = (new QueryBuilder())->table('prntctrl');
+		$q->where('id', $printerID);
+		$q->limit(1);
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			$sql->setFetchMode(PDO::FETCH_CLASS, 'WhsePrinter');
+			return $sql->fetch();
+		}
+	}
+
+	/**
+	 * Returns a prntnctrl printer description
+	 * @param  string $whseID    Warehouse ID  NOTE NOT USED
+	 * @param  string $printerID Printer ID
+	 * @param  bool   $debug     Run in debug? If so, return SQL Query
+	 * @return array             Whse Printer Desc
+	 */
+	function get_prntctrl_printer_desc($whseID = '', $printerID, $debug = false) {
+		$q = (new QueryBuilder())->table('prntctrl');
+		$q->field('desc');
+		$q->where('id', $printerID);
+		$q->limit(1);
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			return $sql->fetchColumn();
+		}
+	}
+
 
 	/**
 	 * Returns if there's a record in the itemcartonlabel table for session
