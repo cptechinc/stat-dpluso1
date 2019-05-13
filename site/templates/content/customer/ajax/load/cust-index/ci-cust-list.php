@@ -18,6 +18,7 @@
             </a>
         </div>
     <?php endif; ?>
+    <?= $paginator->generate_showonpage(); ?>
     <div class="table-responsive">
         <table id="cust-index" class="table table-striped table-bordered">
             <thead>
