@@ -13,29 +13,30 @@
             </span>
         </div>
     </div>
-    <div>
-        <?php
-            if (!empty($input->get->q) || !empty($input->get->function)) {
-                switch ($dplusfunction) {
-                    case 'ca':
-                        include $config->paths->content."customer/ajax/load/cust-index/cart-cust-list.php";
-                        break;
-                    case 'ci':
-                        include $config->paths->content."customer/ajax/load/cust-index/ci-cust-list.php";
-                        break;
-                    case 'ii':
-                        include $config->paths->content."customer/ajax/load/cust-index/ii-cust-list.php";
-                        break;
-                    case 'os':
-                        include $config->paths->content."customer/ajax/load/cust-index/order-search-cust-list.php";
-                        break;
-                }
-            } else {
-                include $config->paths->content."customer/ajax/load/cust-index/ci-cust-list.php";
-            }
-        ?>
-    </div>
+    
 </form>
+<div>
+	<?php
+		if (!empty($input->get->q) || !empty($input->get->function)) {
+			switch ($dplusfunction) {
+				case 'ca':
+					include $config->paths->content."customer/ajax/load/cust-index/cart-cust-list.php";
+					break;
+				case 'ci':
+					include $config->paths->content."customer/ajax/load/cust-index/ci-cust-list.php";
+					break;
+				case 'ii':
+					include $config->paths->content."customer/ajax/load/cust-index/ii-cust-list.php";
+					break;
+				case 'os':
+					include $config->paths->content."customer/ajax/load/cust-index/order-search-cust-list.php";
+					break;
+			}
+		} else {
+			include $config->paths->content."customer/ajax/load/cust-index/ci-cust-list.php";
+		}
+	?>
+</div>
 <?php if (100 == 1) : ?>
     <?php if ($dplusfunction == 'ci') : ?>
         <div class="row form-group">
