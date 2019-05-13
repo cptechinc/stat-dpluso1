@@ -837,7 +837,11 @@
 			$q->group('custid, shiptoid');
 		} elseif (DplusWire::wire('config')->cptechcustomer == 'stat') {
 			if (!empty($orderby)) {
+<<<<<<< HEAD
 
+=======
+				echo $orderby;
+>>>>>>> 92eb73fe2... Customer Sort Fix
 				$q->order($q->generate_orderby($orderby));
 			}
 			$q->group('custid');
@@ -875,7 +879,10 @@
 			$q->field('t.*');
 			$q->field('custperm.lastsaledate');
 			$q->join('custperm.custid', 't.custid', 'left outer');
-			$q->where('custperm.loginid', $user->get_custpermloginid());	
+			$q->where('custperm.loginid', $user->get_custpermloginid());
+			$q->order($q->generate_orderby($orderby));
+		} else {
+			$q = add_custindex_orderby($q, QueryBuilder::generate_searchkeyword($keyword), $orderby);
 		}
 		$q = add_custindex_orderby($q, QueryBuilder::generate_searchkeyword($keyword), $orderby);
 
