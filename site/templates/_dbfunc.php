@@ -837,7 +837,7 @@
 			$q->group('custid, shiptoid');
 		} elseif (DplusWire::wire('config')->cptechcustomer == 'stat') {
 			if (!empty($orderby)) {
-				
+				echo $orderby;
 				$q->order($q->generate_orderby($orderby));
 			}
 			$q->group('custid');
