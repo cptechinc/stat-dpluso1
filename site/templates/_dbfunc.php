@@ -920,6 +920,10 @@
 			$q->generate_filters($filter, $filtertypes);
 		}
 
+		if (!empty($filter)) {
+			$q->generate_filters($filter, $filtertypes);
+		}
+
 		$q->limit($limit, $q->generate_offset($page, $limit));
 		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
 
