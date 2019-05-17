@@ -12,7 +12,6 @@
 
 
 <div id="cust-results">
-<<<<<<< HEAD
     <?php if ($appconfig->allow_customeradd) : ?>
         <div class="form-group">
             <a href="<?= $config->pages->customer.'add/'; ?>" class="btn btn-primary">
@@ -93,7 +92,6 @@
         </table>
     </div>
     <?= $resultscount ? $paginator : ''; ?>
-=======
 	<?php if ($appconfig->allow_customeradd) : ?>
 		<div class="form-group">
 			<a href="<?= $config->pages->customer.'add/'; ?>" class="btn btn-primary">
@@ -174,5 +172,4 @@
 		</table>
 	</div>
 	<?= $resultscount ? $paginator : ''; ?>
->>>>>>> 8ca5d4e11... Customer Search State Filter
 </div>

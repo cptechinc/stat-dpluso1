@@ -20,9 +20,6 @@
             </span>
         </div>
     </div>
-<<<<<<< HEAD
-    
-=======
 
     <div class="row mb-5">
 		<div class="col-sm-12">
