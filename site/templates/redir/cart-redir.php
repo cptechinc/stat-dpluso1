@@ -1,20 +1,20 @@
 <?php
 	use Dplus\ProcessWire\DplusWire;
-	
+
 	// Figure out page request method, then grab needed inputs
 	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
 	$action = $input->$requestmethod->text('action');
-	
+
 	// Set up filename and sessionID in case this was made through cURL
 	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
 	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
-	
+
 	// Set up custID & shipID for requests
 	$custID = $input->$requestmethod->text('custID');
 	$shipID = $input->$requestmethod->text('shipID');
-	
+
 	$session->fromredirect = $page->url;
-	
+
 	/**
 	* CART REDIRECT
 	* @param string $action
@@ -72,12 +72,12 @@
 	*		EMPTYCART
 	*		break;
 	*	case 'create-sales-order':
-	*		- Create Sales Order from cart 
+	*		- Create Sales Order from cart
 	*		DBNAME=$config->dplusdbname
 	*		CREATESO
 	*		break;
 	*	case 'create-quote':
-	*		- Create Quote from cart 
+	*		- Create Quote from cart
 	*		DBNAME=$config->dplusdbname
 	*		CREATEQT
 	*		break;
@@ -138,7 +138,7 @@
 			} else {
 				$qtys = $input->$requestmethod->qty;
 				for ($i = 0; $i < sizeof($itemids); $i++) {
-					$itemID = str_pad(DplusWire::wire('sanitizer')->text($itemidss[$i]), 30, ' ');
+					$itemID = str_pad(DplusWire::wire('sanitizer')->text($itemids[$i]), 30, ' ');
 					$qty = DplusWire::wire('sanitizer')->text($qtys[$i]);
 					$qty = !empty($qty) ? $qty : "1";
 					$data[] = "ITEMID={$itemID}QTY=$qty";
