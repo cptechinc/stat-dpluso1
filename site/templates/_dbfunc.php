@@ -839,6 +839,7 @@
 	function create_searchcustindexquery($loginID, $keyword, $orderby = '') {
 		$user = LogmUser::load($loginID);
 		$search = QueryBuilder::generate_searchkeyword($keyword);
+		$keyword = strtoupper($keyword);
 		$q = (new QueryBuilder())->table('custindex');
 
 		if ($user->is_salesrep() && DplusWire::wire('pages')->get('/config/')->restrict_allowedcustomers) {
