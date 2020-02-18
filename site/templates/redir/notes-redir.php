@@ -114,11 +114,11 @@
 			}
 			break;
 		case 'add-note':
-			$note = new QNote();
+			$note = new Qnote();
 			$note->set('sessionid', $sessionID);
 			$note->set('rectype', $input->post->text('type'));
 			$note->set('key1', $input->post->text('key1'));
-			$note->set('key2', $input->post->text('key2'));
+			$note->set('key2', $input->post->key2 ? $input->post->text('key2') : 0);
 			$note->set('form1', $input->post->form1 ? "Y" : "N");
 			$note->set('form2', $input->post->form2 ? "Y" : "N");
 			$note->set('form3', $input->post->form3 ? "Y" : "N");

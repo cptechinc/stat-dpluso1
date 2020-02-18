@@ -2,11 +2,11 @@
 	if ($input->get->ordn) { $ordn = $input->get->text('ordn'); } else { $ordn = NULL; }
 	if ($input->get->qnbr) { $qnbr = $input->get->text('qnbr'); } else { $qnbr = NULL; }
 
-    $filteron = $input->urlSegment(2);
-    switch ($filteron) {
-        case 'dplus':
+	$filteron = $input->urlSegment(2);
+	switch ($filteron) {
+		case 'dplus':
 			$notetype = $sanitizer->text($input->urlSegment(3));
-			$linenbr = $input->get->text('linenbr');
+			$linenbr = $input->get->int('linenbr');
 			switch ($notetype) {
 				case 'order':
 					$ordn = $input->get->text('ordn');
@@ -23,8 +23,8 @@
 					$page->body = $config->paths->content.'notes/dplus/cart-notes.php';
 					break;
 			}
-           break;
-    }
+			break;
+	}
 
 	if ($config->ajax) {
 		if ($config->modal) {

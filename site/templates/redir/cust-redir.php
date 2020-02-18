@@ -310,9 +310,10 @@
 			$shipto->set('buyingcontact', $input->$requestmethod->text('buycontact'));
 			$shipto->set('certcontact', $input->$requestmethod->text('certcontact') == 'Y' ? "Y" : "N");
 			$shipto->set('ackcontact', "N");
+			$session->sql = $customer->create(true);
 			$shipto->create();
 			$shipto->create_custpermpermission($user->loginid);
-
+			
 			$data = array(
 				"DBNAME=$config->dplusdbname",
 				'NEWCUSTOMER',
@@ -357,7 +358,7 @@
 		break;
 		case 'add-prospect':
 			$customer = new Customer();
-			$customer->set('custid', session_id());
+			$customer->set('custid', substr(session_id(), 0, 6));
 			$customer->set('splogin1', $input->$requestmethod->text('salesperson1'));
 			$customer->set('date', date('Ymd'));
 			$customer->set('time', date('His'));
@@ -375,6 +376,7 @@
 			$customer->set('email', $input->$requestmethod->text('contact-email'));
 			$customer->set('typecode', $input->$requestmethod->text('typecode'));
 			$customer->set('recno', get_maxcustindexrecnbr() + 1);
+			$session->sql = $customer->create(true);
 			$customer->create();
 			$customer->create_custpermpermission($user->loginid);
 
@@ -411,12 +413,12 @@
 
 			$session->loc = $config->pages->custinfo."$custID/";
 
-			if (!empty($shipID)) {
-				$session->loc = $config->pages->custinfo."$custID/shipto-$shipID/";
-				$data = array("DBNAME=$config->dplusdbname", 'CISHIPTOINFO', "CUSTID=$custID", "SHIPID=$shipID");
-			} else {
-				$data = array("DBNAME=$config->dplusdbname", 'CICUSTOMER', "CUSTID=$custID");
-			}
+			// if (!empty($shipID)) {
+			// 	$session->loc = $config->pages->custinfo."$custID/shipto-$shipID/";
+			// 	$data = array("DBNAME=$config->dplusdbname", 'CISHIPTOINFO', "CUSTID=$custID", "SHIPID=$shipID");
+			// } else {
+			// 	$data = array("DBNAME=$config->dplusdbname", 'CICUSTOMER', "CUSTID=$custID");
+			// }
 			break;
 		case 'load-customer':
 			$session->loc = $config->pages->custinfo."$custID/";

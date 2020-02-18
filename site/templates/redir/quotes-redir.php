@@ -32,7 +32,7 @@
 	$session->remove('panelorigin');
 	$session->remove('paneloriginpage');
 	$session->filters = $filteraddon;
-	$filename = session_id();
+	
 
 	//TODO merge get-quote-details
 	/**
@@ -405,6 +405,10 @@
 			break;
 		case 'send-dplus-file':
 			$qnbr = $input->get->text('qnbr');
+			break;
+		case 'print-quote':
+			$qnbr = $input->get->text('qnbr');
+			$data = array("DBNAME=$config->dplusdbname", 'PRINTQUOTE', "QUOTE=$qnbr");
 			break;
 	}
 

@@ -284,7 +284,10 @@
 		if ($debug) {
 			return $q->generate_sqlquery();
 		} else {
-			$sql->execute($q->params);
+			if (!can_accesscustomer($custID, $shiptoID = '', $loginID)) {
+				$sql->execute($q->params);
+			}
+
 			return $sql->rowCount() > 0 ? true : false;
 		}
 	}
@@ -1529,6 +1532,62 @@
 		}
 	}
 
+	/**
+	 * Returns Order Document matching order number
+	 * @param  string    $sessionID     Session Identifier
+	 * @param  string    $ordn          Order Number
+	 * @param  bool      $debug         Run in debug? If so return SQL Query
+	 * @return array                    array of Order Documents
+	 */
+	function get_orderdoc($sessionID, $ordn, $debug = false) {
+		$q = (new QueryBuilder())->table('orddocs');
+		$q->where('sessionid', $sessionID);
+		$q->where('orderno', $ordn);
+		$q->where('itemnbr', '');
+		$like = $q->expr("pathname LIKE []", ["%$ordn%"]);
+		$q->where($like);
+		$q->order('createdate', 'DESC');
+		$q->limit(1);
+
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			return $sql->fetch(PDO::FETCH_ASSOC);
+		}
+	}
+
+
+	/**
+	 * Returns Order Document matching order number
+	 * @param  string    $sessionID     Session Identifier
+	 * @param  string    $ordn          Order Number
+	 * @param  bool      $debug         Run in debug? If so return SQL Query
+	 * @return array                    array of Order Documents
+	 */
+	function orderdoc_exists($sessionID, $ordn, $debug = false) {
+		$q = (new QueryBuilder())->table('orddocs');
+		$q->field('COUNT(*)');
+		$q->where('sessionid', $sessionID);
+		$q->where('orderno', $ordn);
+		$q->where('itemnbr', '');
+		$like = $q->expr("pathname LIKE []", ["%$ordn%"]);
+		$q->where($like);
+		$q->limit(1);
+
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+
+		if ($debug) {
+			return $q->generate_sqlquery($q->params);
+		} else {
+			$sql->execute($q->params);
+			return boolval($sql->fetchColumn());
+		}
+	}
+
+
 /* =============================================================
 	SALES HISTORY FUNCTIONS
 ============================================================ */
@@ -2705,7 +2764,8 @@
 	function add_qnote($sessionID, Qnote $qnote, $debug = false) {
 		$q = (new QueryBuilder())->table('qnote');
 		$q->mode('insert');
-		$qnote->recno = get_maxqnoterecnbr($qnote->sessionid, $qnote->key1, $qnote->key2, $qnote->rectype) + 1;
+		$recno = get_maxqnoterecnbr($qnote->sessionid, $qnote->key1, $qnote->key2, $qnote->rectype) + 1;
+		$qnote->set('recno', $recno);
 
 		foreach ($qnote->_toArray() as $property => $value) {
 			$q->set($property, $value);

@@ -37,6 +37,7 @@
 	include_once($config->paths->templates."_init.js.php");  // includes class files
 
 	// BUILD AND INSTATIATE CLASSES
+	
 	$page->fullURL = new \Purl\Url($page->httpUrl);
 	$page->fullURL->path = '';
 	if (!empty($config->filename) && $config->filename != '/') {
