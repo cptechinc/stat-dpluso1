@@ -3,8 +3,8 @@
 	$q = ($input->get->q) ? $input->get->text('q') : '';
 	$pageurl = ($input->get->q) ? $page->fullURL->getUrl() : $config->pages->ajaxload."ii/search-results/";
 	$paneltitle = ($input->get->q) ? " Searching for '$q'" : 'Items';
-	
-	$items = search_items($q, $custID, $session->display, $input->pageNum); 
+
+	$items = search_items($q, $custID, $session->display, $input->pageNum);
 	$resultscount = count_searchitems($q, $custID);
 	$insertafter = 'search-results';
 	$paginator = new Dplus\Content\Paginator($input->pageNum, $resultscount, $pageurl, $insertafter, "data-loadinto='#item-results' data-focus='#item-results'");

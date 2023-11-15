@@ -870,12 +870,15 @@
 			if (!empty($orderby)) {
 				$q->order($q->generate_orderby($orderby));
 			}
+			if (!empty($search)) {
+				$search = trim(str_replace('%', ' ', $search));
+				$q->order($q->expr('name <> [], custid', [$search]));
+			}
 			$q->group('custid');
 		} else {
 			if (!empty($orderby)) {
 				$q->order($q->generate_orderby($orderby));
 			} else {
-
 				$q->order($q->expr('custid <> []', [$search]));
 			}
 		}
@@ -903,6 +906,7 @@
 
 		if ((isset($filter['lastsaledate'])) && (strpos($orderby, 'lastsaledate') !== false)) {
 			$q->field('t.*');
+
 			$q->field('custperm.lastsaledate');
 			$q->join('custperm.custid', 't.custid', 'left outer');
 			$q->where('custperm.loginid', $user->get_custpermloginid());
@@ -4221,6 +4225,15 @@
 	/* =============================================================
 		ITEM MASTER FUNCTIONS
 	============================================================ */
+	function item_exists_ii($itemID, $debug = false) {
+		$q = (new QueryBuilder())->table('itemsearch');
+		$q->where('itemstatus', '!=', 'I');
+		$q->where('itemid', $itemID);
+		$q->field($q->expr('COUNT(*)'));
+		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
+		$sql->execute($q->params);
+		return boolval($sql->fetchColumn());
+	}
 	/**
 	 * Returns an array of items that match the search query and with the customer ID if provided
 	 * // NOTE This uses full text index to do the searching on, make sure that is created
@@ -4237,8 +4250,8 @@
 		$q = (new QueryBuilder())->table('itemsearch');
 		$q->where('itemstatus', '!=', 'I');
 
-		if (count_searchitems_match($query, $custID)) {
-			$matchexpression = $q->expr("MATCH(itemid, refitemid, desc1, desc2) AGAINST ([] IN BOOLEAN MODE)", ["'*$query*'"]);
+		if (count_searchitems_match($query, $custID) && item_exists_ii($query) === false) {
+			$matchexpression = $q->expr("MATCH(itemid, refitemid, desc1, desc2) AGAINST ([] IN BOOLEAN MODE)", ["*$query*"]);
 		} else {
 			$matchexpression = $q->expr("CONCAT(itemid, ' ', refitemid, ' ', desc1, ' ', desc2) LIKE []", ["%$query%"]);
 		}
