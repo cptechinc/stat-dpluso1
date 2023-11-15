@@ -33,7 +33,6 @@
 	</div>
 </div>
 
-<?php include $config->paths->content."cust-information/cust-sales-data.php"; ?>
 <?php if ($appconfig->child('name=dplus')->has_crm) : ?>
 	<div class="row">
 		<div class="col-xs-12">
@@ -48,6 +47,9 @@
 		</div>
 	</div>
 <?php endif; ?>
+
+<?php include $config->paths->content."cust-information/cust-sales-data.php"; ?>
+
 <div class="row">
 	<div class="col-sm-12">
 		<?php include $config->paths->content."cust-information/shipto-sales-data.php"; ?>
