@@ -24,7 +24,7 @@
 	    </div>
 		<div class="row mb-5">
 				<div class="col-sm-12">
-					<button class="btn btn-primary toggle-order-search pull-right" type="button" data-toggle="collapse" data-target="#cust-search-div" aria-expanded="false" aria-controls="cust-search-div">Toggle Filter Search <i class="fa fa-search" aria-hidden="true"></i></button>
+					<button class="btn btn-primary toggle-order-search pull-right" type="button" data-toggle="collapse" data-target="#cust-search-div" aria-expanded="false" aria-controls="cust-search-div">Filter<i class="fa fa-search" aria-hidden="true"></i></button>
 				</div>
 			</div>
 
