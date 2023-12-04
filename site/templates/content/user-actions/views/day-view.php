@@ -24,7 +24,7 @@
 				<button type="submit" class="btn btn-sm btn-success">Go</button>
 			</form>
 			<button type="button" class="btn btn-sm btn-primary pull-right" data-toggle="collapse" data-target="#<?= $actionpanel->panelID.'-filter'; ?>" aria-expanded="false" aria-controls="<?= $actionpanel->panelID.'-filter'; ?>">
-				Toggle Filter
+				Filter
 			</button>
 		</div>
 	</div>
