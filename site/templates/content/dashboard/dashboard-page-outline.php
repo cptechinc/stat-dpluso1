@@ -1,3 +1,5 @@
+<h3><?= date('l, M jS Y'); ?></h3>
+
 <?php if ($appconfig->child('name=dplus')->has_crm) : ?>
 	<div class="row">
 		<div class="col-sm-12">
@@ -6,6 +8,7 @@
 		</div>
 	</div>
 <?php endif; ?>
+
 <?php if ($pages->get('/config/dashboard/')->show_salespanel) : ?>
 	<div class="row">
 		<div class="col-sm-12">
