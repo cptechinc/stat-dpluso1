@@ -36,7 +36,18 @@
             <td colspan="2" class="control-label">
                 <label for="" class="control-label">Notes</label>
                 <textarea name="textbody" id="note" cols="30" rows="10" class="form-control note required"> </textarea> <br>
-                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" class="btn btn-success">
+                    <i class="glyphicon glyphicon-floppy-disk"></i> Save
+                </button>
+            </td>
+            <td class="text-right">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <i class="glyphicon glyphicon-remove"></i> Close
+                </button>
             </td>
         </tr>
     </table>
