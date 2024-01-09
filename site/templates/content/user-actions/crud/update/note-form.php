@@ -67,6 +67,6 @@
 		</tr>
 	</table>
 	<button type="submit" class="btn btn-success">
-		<i class="glyphicon glyphicon-floppy-disk"></i> Save Changes
+		<i class="glyphicon glyphicon-floppy-disk"></i> Save
 	</button>
 </form>
