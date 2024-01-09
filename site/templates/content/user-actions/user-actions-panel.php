@@ -4,6 +4,8 @@
 	$paginator = new Dplus\Content\Paginator($actionpanel->pagenbr, $actionpanel->count_actions(), $actionpanel->generate_refreshurl(), $actionpanel->paginateafter, $actionpanel->ajaxdata);
 
 	$actionpanel->set_view($input->get->text('view'));
+
+	$actionpanel->set_view('list');
 ?>
 <div class="panel panel-primary not-round" id="<?= $actionpanel->panelID; ?>">
 	<div class="panel-heading not-round" id="<?= $actionpanel->panelID.'-heading'; ?>">
@@ -32,7 +34,7 @@
 					include $config->paths->content."user-actions/views/calendar-view.php";
 					break;
 				default:
-					include $config->paths->content."user-actions/views/day-view.php";
+					include $config->paths->content."user-actions/views/list-view.php";
 					break;
 			}
 		?>
