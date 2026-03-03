@@ -1,4 +1,6 @@
 <?php
+	use App\Dplus\Salesrep\YearOverYear\CustomerFetcher as CustomerYoyFetcher;
+
 	$toolbar = false;
 
     if (has_dpluspermission($user->loginid, 'ci')) {
@@ -38,6 +40,11 @@
 	                        $dplusfunction = 'ci';
 	                        $page->body = $config->paths->content."customer/ajax/load/cust-index/search-form.php";
 	                    } else {
+							$custYoyData = CustomerYoyFetcher::instance()->fetch($custID);
+							
+							if ($custYoyData) {
+								$config->scripts->append(get_hashedtemplatefileURL('scripts/ci/cust-yoy-graph.js'));
+							}
 	                        $page->body = $config->paths->content."cust-information/ci-customer-page.php";
 	                        $custshiptos = json_decode(file_get_contents($config->jsonfilepath.session_id()."-cishiptolist.json"), true);
 	                    }

@@ -50,6 +50,11 @@
 
 <?php include $config->paths->content."cust-information/cust-sales-data.php"; ?>
 
+<?php if ($custYoyData) : ?>
+	<?php include $config->paths->content."cust-information/cust-yoy-graph.php"; ?>
+<?php endif; ?>
+
+
 <div class="row">
 	<div class="col-sm-12">
 		<?php include $config->paths->content."cust-information/shipto-sales-data.php"; ?>

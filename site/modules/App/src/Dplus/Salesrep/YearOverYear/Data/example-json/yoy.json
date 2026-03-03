@@ -1,0 +1,201 @@
+{
+  "1041": {
+    "january": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "january",
+      "date": "2026-01-01"
+    },
+    "february": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "february",
+      "date": "2026-02-01"
+    },
+    "march": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "march",
+      "date": "2026-03-01"
+    },
+    "april": {
+      "2023": null,
+      "2024": 181.3,
+      "2025": null,
+      "2026": null,
+      "month": "april",
+      "date": "2026-04-01"
+    },
+    "may": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "may",
+      "date": "2026-05-01"
+    },
+    "june": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "june",
+      "date": "2026-06-01"
+    },
+    "july": {
+      "2023": 161.45,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "july",
+      "date": "2026-07-01"
+    },
+    "august": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "august",
+      "date": "2026-08-01"
+    },
+    "september": {
+      "2023": null,
+      "2024": null,
+      "2025": 188.47,
+      "2026": null,
+      "month": "september",
+      "date": "2026-09-01"
+    },
+    "october": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "october",
+      "date": "2026-10-01"
+    },
+    "november": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "november",
+      "date": "2026-11-01"
+    },
+    "december": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "december",
+      "date": "2026-12-01"
+    }
+  },
+  "1071": {
+    "january": {
+      "2023": null,
+      "2024": null,
+      "2025": 369.4,
+      "2026": null,
+      "month": "january",
+      "date": "2026-01-01"
+    },
+    "february": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "february",
+      "date": "2026-02-01"
+    },
+    "march": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "march",
+      "date": "2026-03-01"
+    },
+    "april": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "april",
+      "date": "2026-04-01"
+    },
+    "may": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "may",
+      "date": "2026-05-01"
+    },
+    "june": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "june",
+      "date": "2026-06-01"
+    },
+    "july": {
+      "2023": 2465.94,
+      "2024": 3655.85,
+      "2025": null,
+      "2026": null,
+      "month": "july",
+      "date": "2026-07-01"
+    },
+    "august": {
+      "2023": null,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "august",
+      "date": "2026-08-01"
+    },
+    "september": {
+      "2023": 877.51,
+      "2024": null,
+      "2025": null,
+      "2026": null,
+      "month": "september",
+      "date": "2026-09-01"
+    },
+    "october": {
+      "2023": 113.26,
+      "2024": 323.6,
+      "2025": null,
+      "2026": null,
+      "month": "october",
+      "date": "2026-10-01"
+    },
+    "november": {
+      "2023": null,
+      "2024": 32.36,
+      "2025": null,
+      "2026": null,
+      "month": "november",
+      "date": "2026-11-01"
+    },
+    "december": {
+      "2023": null,
+      "2024": 0,
+      "2025": null,
+      "2026": null,
+      "month": "december",
+      "date": "2026-12-01"
+    }
+  },
+  "exists": true,
+  "error": false,
+  "jsonerror": false
+}

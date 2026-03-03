@@ -13,8 +13,8 @@ site/templates/template-test.php
 site/templates/redir/test-redir.php
 
 # Processwire Directories
-site/modules
 site/assets
+site/modules/App/vendor
 wire
 
 
